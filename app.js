@@ -48,30 +48,50 @@ const fakeRequestPromise = (url) => {
 //     })
 
    
+// fakeRequestPromise('yelp.com/api/coffee/page1')
+//     // this is an Object with method on it .then and .catch
+//     // we pass a callback into both methods and only one will 
+//     // run.
+//     request
+//     //this method runs if the promise is resolved
+//         .then(() => {
+//             console.log("IT WORKED!!!!!!! (page1)")
+//             fakeRequestPromise('yelp.com/api/coffee/page2')
+//                 .then(() => {
+//                     console.log("IT WORKED!!!!!!! (page2)")
+//                     fakeRequestPromise('yelp.com/api/coffee/page3')
+//                         .then(() => {
+//                             console.log("IT WORKED!!!!!!! (page3)")
+//                         })
+//                         .catch(() => {
+//                             console.log("OH NO, ERROR!!! (page3)")
+//                     })
+//                 })
+//                 .catch(() => {
+//                     console.log("OH NO, ERROR!!! (page2)")
+//             })
+//     })
+//     //this method runs if the promise is rejected
+//         .catch(() => {
+//             console.log("OH NO, ERROR!!! (page1)")
+//     })
+
+// you can chain .then as long as you return the promise request
 fakeRequestPromise('yelp.com/api/coffee/page1')
-    // this is an Object with method on it .then and .catch
-    // we pass a callback into both methods and only one will 
-    // run.
-    request
-    //this method runs if the promise is resolved
-        .then(() => {
-            console.log("IT WORKED!!!!!!! (page1)")
-            fakeRequestPromise('yelp.com/api/coffee/page2')
-                .then(() => {
-                    console.log("IT WORKED!!!!!!! (page2)")
-                    fakeRequestPromise('yelp.com/api/coffee/page3')
-                        .then(() => {
-                            console.log("IT WORKED!!!!!!! (page3)")
-                        })
-                        .catch(() => {
-                            console.log("OH NO, ERROR!!! (page3)")
-                    })
-                })
-                .catch(() => {
-                    console.log("OH NO, ERROR!!! (page2)")
-            })
+    .then((data) => {
+        console.log("IT WORKED!!!!!!! (page1)")
+        console.log(data)
+        return fakeRequestPromise('yelp.com/api/coffee/page2')
     })
-    //this method runs if the promise is rejected
-        .catch(() => {
-            console.log("OH NO, ERROR!!! (page1)")
+    .then(() => {
+        console.log("IT WORKED!!!!!!! (page2)")
+        console.log(data)
+        return fakeRequestPromise('yelp.com/api/coffee/page3')
+    })
+    .then(() => {
+        console.log("IT WORKED!!!!!!! (page3)")
+        console.log(data)
+    })
+    .catch((err) => {
+        console.log("OH NO, A REQUEST FAILED!!!")
     })
